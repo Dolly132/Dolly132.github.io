@@ -1,6 +1,60 @@
-<input type="file" id="file" />
-<button onclick="save()">Save</button>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Excel Manager - Abu Albaraa</title>
+</head>
+<style>
+    :root {
+        --bg-main: #0d1117;
+        --bg-panel: #161b22;
+        --bg-table: #0b1220;
+        --text-main: #e6edf3;
+        --text-muted: #9ba3b4;
+        --border: #30363d;
+        --accent: #58a6ff;
+    }
+
+    .button {
+        background: var(--accent);
+        color: #000;
+        border: none;
+        padding: 8px 12px;
+        border-radius: 6px;
+        cursor: pointer;
+    }
+
+    html, body {
+        background: var(--bg-main);
+        color: var(--text-main);
+        font-family: system-ui, sans-serif;
+    }
+
+    .border {
+        widht: 100%;
+        height: 10px;
+        background: var(--border);
+    }
+
+</style>
+<body>
+    <center>
+        <input type="file" id="file" name="file" hidden />
+        <button id="uploadBtn" class="button">Upload Excel File</button>
+
+        <p style="margin-top: 2cm; font-size: 20px; font-weight: bolder;">File Information:</p>
+        <div class="border"></div>
+
+        <div class="search-div">
+            
+        </div>
+    </center>
+
+
 <table id="table" border="1"></table>
 
-<script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
-<script src="app.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
