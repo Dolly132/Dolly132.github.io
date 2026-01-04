@@ -42,9 +42,92 @@
         border-collapse: collapse;
     }
 
+    th {
+        font-weight: bolder;
+    }
+
     td {
         border: 1px solid var(--border);
         padding: 8px;
+    }
+
+    .table {
+        width: 95%;
+        margin-top: 2cm;
+    }
+
+    select {
+        background-color: #161b22;   /* secondary panel bg */
+        color: #e6edf3;              /* main text */
+        border: 1px solid #30363d;   /* subtle border */
+        padding: 8px 12px;
+        border-radius: 6px;
+        font-size: 14px;
+        cursor: pointer;
+        outline: none;
+    }
+
+    select option {
+        background-color: #0d1117;   /* main dark background for dropdown items */
+        color: #e6edf3;              /* text color */
+    }
+
+    select:hover {
+        border-color: #58a6ff;       /* accent color highlight */
+    }
+
+    select:focus {
+        border-color: #58a6ff;
+        box-shadow: 0 0 0 2px rgba(88, 166, 255, 0.3); /* subtle focus glow */
+    }
+
+    input[type="text"], 
+    input[type="email"], 
+    input[type="number"], 
+    input[type="password"], 
+    textarea {
+        background-color: #161b22;   /* panel bg */
+        color: #e6edf3;              /* text color */
+        border: 1px solid #30363d;   /* subtle border */
+        padding: 8px 12px;
+        border-radius: 6px;
+        font-size: 14px;
+        outline: none;
+        width: 100%;                 /* optional full width */
+        box-sizing: border-box;
+        transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    /* Placeholder text */
+    input::placeholder,
+    textarea::placeholder {
+        color: #9ba3b4;              /* muted placeholder */
+    }
+
+    /* Hover effect */
+    input:hover, textarea:hover {
+        border-color: #58a6ff;       /* accent color highlight */
+    }
+
+    /* Focus effect */
+    input:focus, textarea:focus {
+        border-color: #58a6ff;
+        box-shadow: 0 0 0 2px rgba(88, 166, 255, 0.3); /* subtle glow */
+    }
+
+    .search-div {
+        margin-top: 1cm;
+        display: flex;
+        justify-content: center;
+        width: 90%;
+    }
+
+    .search-div input {
+        flex: 1 auto;
+    }
+
+    .search-div select {
+        flex: 2 auto;
     }
 
 </style>
@@ -57,17 +140,18 @@
         <div class="border"></div>
 
         <div class="search-div">
-
+            <input id="search" type="text" placeholder="Search...">
+            <select id="select"><option value="-1">No filter</option></select>
         </div>
+
+        <table id="table" class="table">
+            <thead id="table-thead">
+            </thead>
+
+            <tbody id="table-tbody">
+            </tbody>
+        </table>
     </center>
-
-    <table id="table">
-        <thead id="table-thead">
-        </thead>
-
-        <tbody id="table-tbody">
-        </tbody>
-    </table>
 
     <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
     <script src="app.js"></script>

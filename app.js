@@ -5,7 +5,7 @@ document.getElementById("uploadBtn").onclick = () => {
 let data = [];
 let table_thead = document.getElementById("table-thead");
 let table_tbody = document.getElementById("table-tbody");
-
+let search_select = document.getElementById("select");
 const searchInput = document.getElementById("search");
 
 document.getElementById("file").onchange = e => {
@@ -27,6 +27,10 @@ function deleteTableData() {
     while (table_tbody.firstChild) {
         table_tbody.removeChild(table_tbody.firstChild);
     }
+
+    while (search_select.firstChild) {
+        search_select.removeChild(search_select.firstChild);
+    }
 }
 
 function renderTable(tableData) {
@@ -39,6 +43,11 @@ function renderTable(tableData) {
 
     for (var i = 0; i < columns.length; i++) {
         tr.innerHTML += "<th>"+columns[i]+"</th>";
+
+        var option = document.createElement("option");
+        option.innerHTML = columns[i];
+        option.setAttribute("value", i);
+        search_select.append(option);
     }
 
     table_thead.append(tr);
@@ -62,3 +71,22 @@ function render() {
 
     renderTable(data);
 }
+
+searchInput.addEventListener("input", () => {
+    const query = searchInput.value.toLowerCase()
+    const val = search_select.value;
+    if (val == -1) {
+        return;
+    }
+
+    const filtered = data.filter((row, index) => {
+        if (index === 0) {
+            return true; // keep header
+        }
+
+        const cell = row[val] ? row[val].toString().toLowerCase() : "";
+        return cell.includes(query);
+    });
+
+    renderTable(filtered);
+});
