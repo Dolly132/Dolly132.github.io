@@ -93,7 +93,7 @@ function render() {
         var input = document.createElement("input");
         input.style.width = "50%";
         input.type = "text";
-        label.style.marginTop = "10px";
+        label.style.marginTop = "20px";
         input.setAttribute("id", "panel-column"+i);
 
         section.appendChild(input);
@@ -109,12 +109,14 @@ function render() {
     panel.appendChild(btn);
 
     btn.onclick = () => {
+        let newRow;
         for (var i = 0; i < columnsInputs.length; i++) {
-            let newRow = new Array(columnsInputs.length);
+            newRow = new Array(columnsInputs.length);
             newRow.push(columnsInputs[i].value);
         }
 
         addNewRow(newRow);
+        renderTable(data);
         alert("CLicked!!");
     };
 }
