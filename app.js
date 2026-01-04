@@ -21,15 +21,15 @@ document.getElementById("file").onchange = e => {
 };
 
 function deleteTableData(resetSelect = false) {
-    while (table_thead.firstChild) {
-        table_thead.removeChild(table_thead.firstChild);
-    }
-
     while (table_tbody.firstChild) {
         table_tbody.removeChild(table_tbody.firstChild);
     }
 
     if (resetSelect == true) {
+        while (table_thead.firstChild) {
+            table_thead.removeChild(table_thead.firstChild);
+        }
+
         while (search_select.firstChild) {
             search_select.removeChild(search_select.firstChild);
         }
@@ -41,31 +41,33 @@ function renderTable(tableData, resetSelect = false) {
 
     const columns = tableData[0];
 
-    var tr = document.createElement("tr");
-    tr.innerHTML = "";
+    if (resetSelect) {
+        const tr = document.createElement("tr");
 
-    if (resetSelect == true) {
-        for (var i = 0; i < columns.length; i++) {
-            tr.innerHTML += "<th>"+columns[i]+"</th>";
+        columns.forEach((col, i) => {
+            const th = document.createElement("th");
+            th.textContent = col;
+            tr.appendChild(th);
 
-            var option = document.createElement("option");
-            option.innerHTML = columns[i];
-            option.setAttribute("value", i);
-            search_select.append(option);
-        }
+            const option = document.createElement("option");
+            option.value = i;
+            option.textContent = col;
+            search_select.appendChild(option);
+        });
+
+        table_thead.appendChild(tr);
     }
 
-    table_thead.append(tr);
+    for (let i = 1; i < tableData.length; i++) {
+        const tr = document.createElement("tr");
 
-    for (var i = 1; i < tableData.length; i++) {
-        var tdTr = document.createElement("tr");
-        tdTr.innerHTML = "";
-
-        for (var j = 0; j < tableData[i].length; j++) {
-            tdTr.innerHTML += "<td>"+tableData[i][j]+"</td>"
+        for (let j = 0; j < tableData[i].length; j++) {
+            const td = document.createElement("td");
+            td.textContent = tableData[i][j] !== undefined ? tableData[i][j] : "";
+            tr.appendChild(td);
         }
 
-        table_tbody.append(tdTr);
+        table_tbody.appendChild(tr);
     }
 }
 
@@ -120,7 +122,7 @@ function render() {
 }
 
 searchInput.addEventListener("input", () => {
-    const query = searchInput.value.toLowerCase()
+    const query = searchInput.value.toLowerCase();
     const val = search_select.value;
     if (val == -1) {
         return;
