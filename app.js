@@ -44,13 +44,15 @@ function renderTable(tableData, resetSelect = false) {
     var tr = document.createElement("tr");
     tr.innerHTML = "";
 
-    for (var i = 0; i < columns.length; i++) {
-        tr.innerHTML += "<th>"+columns[i]+"</th>";
+    if (resetSelect == true) {
+        for (var i = 0; i < columns.length; i++) {
+            tr.innerHTML += "<th>"+columns[i]+"</th>";
 
-        var option = document.createElement("option");
-        option.innerHTML = columns[i];
-        option.setAttribute("value", i);
-        search_select.append(option);
+            var option = document.createElement("option");
+            option.innerHTML = columns[i];
+            option.setAttribute("value", i);
+            search_select.append(option);
+        }
     }
 
     table_thead.append(tr);
@@ -72,31 +74,47 @@ function render() {
         return;
     }
 
-    renderTable(data);
+    renderTable(data, true);
 
     const columns = data[0];
+    let columnsInputs = [];
 
     for (var i = 0; i < columns.length; i++) {
         var section = document.createElement("div");
         section.className = "form-section";
 
         var label = document.createElement("label");
+        label.innerHTML = columns[i];
+        label.style.fontWeight = "bold";
+        label.style.fontSize = "15px";
         label.style.display = "inline-block";
 
         section.appendChild(label);
         var input = document.createElement("input");
+        input.style.width = "50%";
         input.type = "text";
+        label.style.marginTop = "10px";
         input.setAttribute("id", "panel-column"+i);
 
         section.appendChild(input);
 
         panel.appendChild(section);
+
+        columnsInputs.push(input);
     }
 
     var btn = document.createElement("button");
     btn.className = "button";
+    btn.innerHTML = "Add";
     panel.appendChild(btn);
+
     btn.onclick = () => {
+        for (var i = 0; i < columnsInputs.length; i++) {
+            let newRow = new Array(columnsInputs.length);
+            newRow.push(columnsInputs[i].value);
+        }
+
+        addNewRow(rowData);
         alert("CLicked!!");
     };
 }
@@ -131,3 +149,14 @@ btn.addEventListener("click", () => {
         panel.style.height = 0;
     }
 });
+
+function addNewRow(rowData) {
+    data.push(rowData);
+}
+
+document.getElementById("download").onclick = ()=>{
+    const ws = XLSX.utils.aoa_to_sheet(data);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+    XLSX.writeFile(wb, "updated.xlsx");
+}
