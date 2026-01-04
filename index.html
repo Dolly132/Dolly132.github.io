@@ -32,9 +32,19 @@
     }
 
     .border {
-        widht: 100%;
-        height: 10px;
+        width: 50%;
+        height: 5px;
         background: var(--border);
+    }
+
+    table {
+        background: var(--bg-table);
+        border-collapse: collapse;
+    }
+
+    td {
+        border: 1px solid var(--border);
+        padding: 8px;
     }
 
 </style>
@@ -47,12 +57,17 @@
         <div class="border"></div>
 
         <div class="search-div">
-            
+
         </div>
     </center>
 
+    <table id="table">
+        <thead id="table-thead">
+        </thead>
 
-<table id="table" border="1"></table>
+        <tbody id="table-tbody">
+        </tbody>
+    </table>
 
     <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
     <script src="app.js"></script>

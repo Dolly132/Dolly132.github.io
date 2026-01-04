@@ -1,4 +1,12 @@
+document.getElementById("uploadBtn").onclick = () => {
+    document.getElementById("file").click();
+}
+
 let data = [];
+let table_thead = document.getElementById("table-thead");
+let table_tbody = document.getElementById("table-tbody");
+
+const searchInput = document.getElementById("search");
 
 document.getElementById("file").onchange = e => {
     const reader = new FileReader();
@@ -11,25 +19,46 @@ document.getElementById("file").onchange = e => {
     reader.readAsArrayBuffer(e.target.files[0]);
 };
 
-function render() {
-    const table = document.getElementById("table");
-    table.innerHTML = "";
-    data.forEach((row, r) => {
-        const tr = document.createElement("tr");
-        row.forEach((cell, c) => {
-            const td = document.createElement("td");
-            td.contentEditable = true;
-            td.innerText = cell || "";
-            td.oninput = () => data[r][c] = td.innerText;
-            tr.appendChild(td);
-        });
-        table.appendChild(tr);
-    });
+function deleteTableData() {
+    while (table_thead.firstChild) {
+        table_thead.removeChild(table_thead.firstChild);
+    }
+
+    while (table_tbody.firstChild) {
+        table_tbody.removeChild(table_tbody.firstChild);
+    }
 }
 
-function save() {
-    const ws = XLSX.utils.aoa_to_sheet(data);
-    const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
-    XLSX.writeFile(wb, "updated.xlsx");
+function renderTable(tableData) {
+    deleteTableData();
+
+    const columns = tableData[0];
+
+    var tr = document.createElement("tr");
+    tr.innerHTML = "";
+
+    for (var i = 0; i < columns.length; i++) {
+        tr.innerHTML += "<th>"+columns[i]+"</th>";
+    }
+
+    table_thead.append(tr);
+
+    for (var i = 1; i < tableData.length; i++) {
+        var tdTr = document.createElement("tr");
+        tdTr.innerHTML = "";
+
+        for (var j = 0; j < tableData[i].length; j++) {
+            tdTr.innerHTML += "<td>"+tableData[i][j]+"</td>"
+        }
+
+        table_tbody.append(tdTr);
+    }
+}
+
+function render() {
+    if (data.length == 0) {
+        return;
+    }
+
+    renderTable(tableData);
 }
