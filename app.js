@@ -111,13 +111,22 @@ function render() {
     panel.appendChild(btn);
 
     btn.onclick = () => {
-        let newRow = new Array(columnsInputs.length);
-        for (var i = 0; i < columnsInputs.length; i++) {
-            newRow.push(columnsInputs[i].value);
-        }
+        const headers = data[0]; // first row = column names
+        const newRow = new Array(headers.length).fill(""); // empty row same length as header
 
-        addNewRow(newRow);
-        renderTable(data);
+        // Fill newRow with input values
+        columnsInputs.forEach((input, i) => {
+            newRow[i] = input.value;
+        });
+
+        // Add to table data
+        data.push(newRow);
+
+        // Render table (do NOT reset header)
+        renderTable(data, false);
+
+        // Optionally clear inputs
+        columnsInputs.forEach(input => input.value = "");
     };
 }
 
@@ -151,10 +160,6 @@ btn.addEventListener("click", () => {
         panel.style.height = 0;
     }
 });
-
-function addNewRow(rowData) {
-    data.push(rowData);
-}
 
 document.getElementById("download").onclick = ()=>{
     const ws = XLSX.utils.aoa_to_sheet(data);
