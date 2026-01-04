@@ -127,8 +127,8 @@ searchInput.addEventListener("input", () => {
     }
 
     const filtered = data.filter((row, index) => {
-        if (index === 0) {
-            return false; // keep header
+        if (index == 0 || index == 1) {
+            return true; // keep header
         }
 
         const cell = row[val] ? row[val].toString().toLowerCase() : "";
