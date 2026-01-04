@@ -87,7 +87,7 @@ function render() {
         label.innerHTML = columns[i];
         label.style.fontWeight = "bold";
         label.style.fontSize = "15px";
-        label.style.display = "inline-block";
+        label.style.display = "block";
 
         section.appendChild(label);
         var input = document.createElement("input");
@@ -114,7 +114,7 @@ function render() {
             newRow.push(columnsInputs[i].value);
         }
 
-        addNewRow(rowData);
+        addNewRow(newRow);
         alert("CLicked!!");
     };
 }
@@ -128,7 +128,7 @@ searchInput.addEventListener("input", () => {
 
     const filtered = data.filter((row, index) => {
         if (index === 0) {
-            return true; // keep header
+            return false; // keep header
         }
 
         const cell = row[val] ? row[val].toString().toLowerCase() : "";
