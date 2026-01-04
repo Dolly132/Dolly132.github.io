@@ -109,15 +109,13 @@ function render() {
     panel.appendChild(btn);
 
     btn.onclick = () => {
-        let newRow;
+        let newRow = new Array(columnsInputs.length);
         for (var i = 0; i < columnsInputs.length; i++) {
-            newRow = new Array(columnsInputs.length);
             newRow.push(columnsInputs[i].value);
         }
 
         addNewRow(newRow);
         renderTable(data);
-        alert("CLicked!!");
     };
 }
 
