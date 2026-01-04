@@ -7,6 +7,7 @@ let table_thead = document.getElementById("table-thead");
 let table_tbody = document.getElementById("table-tbody");
 let search_select = document.getElementById("select");
 const searchInput = document.getElementById("search");
+let panel = document.getElementById("panel");
 
 document.getElementById("file").onchange = e => {
     const reader = new FileReader();
@@ -19,7 +20,7 @@ document.getElementById("file").onchange = e => {
     reader.readAsArrayBuffer(e.target.files[0]);
 };
 
-function deleteTableData() {
+function deleteTableData(resetSelect = false) {
     while (table_thead.firstChild) {
         table_thead.removeChild(table_thead.firstChild);
     }
@@ -28,13 +29,15 @@ function deleteTableData() {
         table_tbody.removeChild(table_tbody.firstChild);
     }
 
-    while (search_select.firstChild) {
-        search_select.removeChild(search_select.firstChild);
+    if (resetSelect == true) {
+        while (search_select.firstChild) {
+            search_select.removeChild(search_select.firstChild);
+        }
     }
 }
 
-function renderTable(tableData) {
-    deleteTableData();
+function renderTable(tableData, resetSelect = false) {
+    deleteTableData(resetSelect);
 
     const columns = tableData[0];
 
@@ -70,6 +73,32 @@ function render() {
     }
 
     renderTable(data);
+
+    const columns = data[0];
+
+    for (var i = 0; i < columns.length; i++) {
+        var section = document.createElement("div");
+        section.className = "form-section";
+
+        var label = document.createElement("label");
+        label.style.display = "inline-block";
+
+        section.appendChild(label);
+        var input = document.createElement("input");
+        input.type = "text";
+        input.setAttribute("id", "panel-column"+i);
+
+        section.appendChild(input);
+
+        panel.appendChild(section);
+    }
+
+    var btn = document.createElement("button");
+    btn.className = "button";
+    panel.appendChild(btn);
+    btn.onclick = () => {
+        alert("CLicked!!");
+    };
 }
 
 searchInput.addEventListener("input", () => {
@@ -89,4 +118,16 @@ searchInput.addEventListener("input", () => {
     });
 
     renderTable(filtered);
+});
+
+const btn = document.getElementById("toggleBtn");
+
+btn.addEventListener("click", () => {
+    if (panel.clientHeight === 0) {
+        // Slide Down
+        panel.style.height = panel.scrollHeight + "px";
+    } else {
+        // Slide Up
+        panel.style.height = 0;
+    }
 });
