@@ -138,7 +138,7 @@ searchInput.addEventListener("input", () => {
     }
 
     const filtered = data.filter((row, index) => {
-        if (index == 0 || index == 1) {
+        if (index == 0) {
             return true; // keep header
         }
 
